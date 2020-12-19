@@ -2,49 +2,54 @@ console.log('client.js');
 
 $(document).ready(readyNow);
 
-let num1 = 0;
-let num2 = 0;
-let operation = '';
-let dataToSend = {};
+// declaring variables
+let operation = '';     // chosen operator 
 
-// num1 = $('#firstNumber').val();
-// num2 = $('#secondNumber').val();
 
+// function to run the app
 function readyNow() {
+    // testing the function 
     console.log('jQuery is loaded');
 
+    // when you press these buttons, run these functions
     $('#plusBtn').on('click', addNumbers);
     $('#minusBtn').on('click', subtractNumbers);
     $('#multiplyBtn').on('click', multiplyNumbers);
     $('#divideBtn').on('click', divideNumbers);
     $('#equalsBtn').on('click', result);
-    $('#clearBtn').on('click', clear);  
-    // displayHistory();
-    
+    $('#clearBtn').on('click', clear);      
 }
 
+// function to store '+' in operator variable
 function addNumbers() {
+    // testing button
     console.log('clicked the plus');
     operation = '+';
     
     console.log('operator is ', operation);
 }
 
+// function to store '-' in operator variable
 function subtractNumbers() {
+    // testing button
     console.log('clicked the minus');
     operation = '-';
     
     console.log('operator is ', operation);
 }
 
+// function to store '*' in operator variable
 function multiplyNumbers() {
+    // testing button
     console.log('clicked the star');
     operation = '*';
     
     console.log('operator is ', operation);
 }
 
+// function to store '/' in operator variable
 function divideNumbers() {
+    // testing button
     console.log('clicked the whack');
 
     operation = '/';
@@ -52,19 +57,24 @@ function divideNumbers() {
     console.log('operator is ', operation);
 }
 
+// function to send user data to the server
 function result() {
+    // testing button
     console.log('clicked equals');
-    dataToSend = {
+    //defining object as user inputs and our user's preferred operator
+    let dataToSend = {
         value1: $('#firstNumber').val(),
         value2: $('#secondNumber').val(),
         operator: operation
     }
     console.log(dataToSend)
+    // posting the object to the server
     $.ajax({
         url: '/calculate',
         type: 'POST',
         data: dataToSend
     }).then(function (response) {
+        // on response from the server run these functions
         console.log(response);
         console.log('received ', dataToSend);
         displayHistory();
@@ -72,12 +82,16 @@ function result() {
     });
 }
 
+// displaying passed calculations on the DOM
 function displayHistory() {
+    // testing function
     console.log('in displayHistory');
+    // getting previous calculations from the server
     $.ajax({
         url: '/history',
         type: 'GET'
     }).then(function (response) {
+        // on response from the server display the response
         $('#pastCalc').empty();
         for (let solution of response){
         $('#pastCalc').append(`
@@ -88,20 +102,28 @@ function displayHistory() {
     })
 }
 
+// function to display the most recent calculation
 function displayResult() {
+    // testing function
     console.log('in displayResult');
+    // getting the answer to the problem from the server
     $.ajax({
         url: '/result',
         type: 'GET'
     }).then(function (response) {
+        // on response from the server display answer on the DOM
+        // remove previous answer and display current answer
         $('#product').empty();
         $('#product').append(`
             <h2>${response}</h2>
         `);
     })
 }
-function clear() {
-    console.log('clicked the C');
 
+// function to clear user inputs
+function clear() {
+    // testing button
+    console.log('clicked the C');
+    // clear inputs
     $('input').val('');
 }
