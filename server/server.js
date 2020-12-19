@@ -5,6 +5,7 @@ const PORT = 5000;
 let inputNumbers = [];
 let answer = [];
 
+
 app.use(bodyParser.urlencoded({extended: true}));
 
 app.use(express.static('server/public'));
@@ -20,27 +21,26 @@ app.post('/calculate', (req, res) => {
 })
 
 function outcome() {
-    answer = [];
 
     for (let operant of inputNumbers){
         if (operant.operator === '+'){
             let result = Number(operant.value1) + Number(operant.value2);
-            answer.push(result);
+            answer.push(`${operant.value1} + ${operant.value2} = ${result}`);
             console.log(result);
         }
         else if (operant.operator === '-'){
             let result = Number(operant.value1) - Number(operant.value2);
-            answer.push(result);
+            answer.push(`${operant.value1} - ${operant.value2} = ${result}`);
             console.log(result);
         }
         else if (operant.operator === '*'){
             let result = Number(operant.value1) * Number(operant.value2);
-            answer.push(result);
+            answer.push(`${operant.value1} * ${operant.value2} = ${result}`);
             console.log(result);
         }
         else if (operant.operator === '/'){
             let result = Number(operant.value1) / Number(operant.value2);
-            answer.push(result);
+            answer.push(`${operant.value1} / ${operant.value2} = ${result}`);
             console.log(result);
         }
     }
@@ -48,7 +48,9 @@ function outcome() {
 }
 
 
-
+app.get('/history', (req, res) => {
+    res.send(answer);
+});
 
 
 

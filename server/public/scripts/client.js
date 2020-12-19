@@ -4,6 +4,8 @@ $(document).ready(readyNow);
 
 let num1 = 0;
 let num2 = 0;
+let operation = '';
+let dataToSend = {};
 
 // num1 = $('#firstNumber').val();
 // num2 = $('#secondNumber').val();
@@ -21,90 +23,62 @@ function readyNow() {
 
 function addNumbers() {
     console.log('clicked the plus');
-
-    let dataToSend = {
-        value1: $('#firstNumber').val(),
-        value2: $('#secondNumber').val(),
-        operator: '+'
-    };
-    console.log(dataToSend);
-    $.ajax({
-        url: '/calculate',
-        type: 'POST',
-        data: dataToSend
-    }).then(function (response){
-        console.log(response);
-        console.log('received ', dataToSend);
-    });
-    $('input').val('');
+    operation = '+';
+    
+    console.log('operator is ', operation);
 }
 
 function subtractNumbers() {
     console.log('clicked the minus');
-    let dataToSend = {
-        value1: $('#firstNumber').val(),
-        value2: $('#secondNumber').val(),
-        operator: '-'
-    };
-    console.log(dataToSend);
-    $.ajax({
-        url: '/calculate',
-        type: 'POST',
-        data: dataToSend
-    }).then(function (response){
-        console.log(response);
-        console.log('received ', dataToSend);
-    });
-    $('input').val('');
-
+    operation = '-';
     
+    console.log('operator is ', operation);
 }
 
 function multiplyNumbers() {
     console.log('clicked the star');
-    let dataToSend = {
-        value1: $('#firstNumber').val(),
-        value2: $('#secondNumber').val(),
-        operator: '*'
-    };
-    console.log(dataToSend);
-    $.ajax({
-        url: '/calculate',
-        type: 'POST',
-        data: dataToSend
-    }).then(function (response){
-        console.log(response);
-        console.log('received ', dataToSend);
-    });
-    $('input').val('');
-
-
+    operation = '*';
+    
+    console.log('operator is ', operation);
 }
 
 function divideNumbers() {
     console.log('clicked the whack');
 
-    let dataToSend = {
-        value1: $('#firstNumber').val(),
-        value2: $('#secondNumber').val(),
-        operator: '/'
-    };
-    console.log(dataToSend);
-    $.ajax({
-        url: '/calculate',
-        type: 'POST',
-        data: dataToSend
-    }).then(function (response){
-        console.log(response);
-        console.log('received ', dataToSend);
-    });
-    $('input').val('');
+    operation = '/';
+    
+    console.log('operator is ', operation);
 }
 
 function result() {
     console.log('clicked equals');
+    dataToSend = {
+        value1: $('#firstNumber').val(),
+        value2: $('#secondNumber').val(),
+        operator: operation
+    }
+    console.log(dataToSend)
+    $.ajax({
+        url: '/calculate',
+        type: 'POST',
+        data: dataToSend
+    }).then(function (response) {
+        console.log(response);
+        console.log('received ', dataToSend);
+        displayHistory();
+    });
+}
 
-    $.ajax
+function displayHistory() {
+    console.log('in displayHistory');
+    $.ajax({
+        url: '/history',
+        type: 'GET'
+    }).then(function (response) {
+        $('#history').append(`
+            <li>${response}</li>
+        `);
+    })
 }
 
 function clear() {
