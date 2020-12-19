@@ -5,8 +5,8 @@ $(document).ready(readyNow);
 let num1 = 0;
 let num2 = 0;
 
-num1 = $('#firstNumber').val();
-num2 = $('#secondNumber').val();
+// num1 = $('#firstNumber').val();
+// num2 = $('#secondNumber').val();
 
 function readyNow() {
     console.log('jQuery is loaded');
@@ -23,8 +23,8 @@ function addNumbers() {
     console.log('clicked the plus');
 
     let dataToSend = {
-        value1: num1,
-        value2: num2,
+        value1: $('#firstNumber').val(),
+        value2: $('#secondNumber').val(),
         operator: '+'
     };
     console.log(dataToSend);
@@ -41,26 +41,70 @@ function addNumbers() {
 
 function subtractNumbers() {
     console.log('clicked the minus');
+    let dataToSend = {
+        value1: $('#firstNumber').val(),
+        value2: $('#secondNumber').val(),
+        operator: '-'
+    };
+    console.log(dataToSend);
+    $.ajax({
+        url: '/calculate',
+        type: 'POST',
+        data: dataToSend
+    }).then(function (response){
+        console.log(response);
+        console.log('received ', dataToSend);
+    });
+    $('input').val('');
 
-    // ajax post
+    
 }
 
 function multiplyNumbers() {
     console.log('clicked the star');
+    let dataToSend = {
+        value1: $('#firstNumber').val(),
+        value2: $('#secondNumber').val(),
+        operator: '*'
+    };
+    console.log(dataToSend);
+    $.ajax({
+        url: '/calculate',
+        type: 'POST',
+        data: dataToSend
+    }).then(function (response){
+        console.log(response);
+        console.log('received ', dataToSend);
+    });
+    $('input').val('');
 
-    // ajax post
+
 }
 
 function divideNumbers() {
     console.log('clicked the whack');
 
-    // ajax post
+    let dataToSend = {
+        value1: $('#firstNumber').val(),
+        value2: $('#secondNumber').val(),
+        operator: '/'
+    };
+    console.log(dataToSend);
+    $.ajax({
+        url: '/calculate',
+        type: 'POST',
+        data: dataToSend
+    }).then(function (response){
+        console.log(response);
+        console.log('received ', dataToSend);
+    });
+    $('input').val('');
 }
 
 function result() {
     console.log('clicked equals');
 
-    // ajax get
+    $.ajax
 }
 
 function clear() {
