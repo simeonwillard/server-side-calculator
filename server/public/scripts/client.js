@@ -78,10 +78,12 @@ function displayHistory() {
         url: '/history',
         type: 'GET'
     }).then(function (response) {
-        // $('#pastCalc').empty();
+        $('#pastCalc').empty();
+        for (let solution of response){
         $('#pastCalc').append(`
-            <li>${response[response.length-1]}</li>
+            <li>${solution}</li>
         `);
+        }
         console.log(response);
     })
 }
@@ -101,5 +103,5 @@ function displayResult() {
 function clear() {
     console.log('clicked the C');
 
-    // no ajax
+    $('input').val('');
 }
