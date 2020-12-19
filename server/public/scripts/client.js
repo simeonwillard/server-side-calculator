@@ -18,7 +18,9 @@ function readyNow() {
     $('#multiplyBtn').on('click', multiplyNumbers);
     $('#divideBtn').on('click', divideNumbers);
     $('#equalsBtn').on('click', result);
-    $('#clearBtn').on('click', clear);      
+    $('#clearBtn').on('click', clear);  
+    // displayHistory();
+    
 }
 
 function addNumbers() {
@@ -66,6 +68,7 @@ function result() {
         console.log(response);
         console.log('received ', dataToSend);
         displayHistory();
+        displayResult();
     });
 }
 
@@ -75,12 +78,26 @@ function displayHistory() {
         url: '/history',
         type: 'GET'
     }).then(function (response) {
-        $('#history').append(`
-            <li>${response}</li>
+        // $('#pastCalc').empty();
+        $('#pastCalc').append(`
+            <li>${response[response.length-1]}</li>
         `);
+        console.log(response);
     })
 }
 
+function displayResult() {
+    console.log('in displayResult');
+    $.ajax({
+        url: '/result',
+        type: 'GET'
+    }).then(function (response) {
+        $('#product').empty();
+        $('#product').append(`
+            <h2>${response}</h2>
+        `);
+    })
+}
 function clear() {
     console.log('clicked the C');
 
